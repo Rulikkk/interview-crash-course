@@ -22,4 +22,3 @@ Rules from Stephen Cleary ([source](http://blog.stephencleary.com/2009/08/how-to
 
 ## Reference implementation
 
-{% gist id="https://gist.github.com/Rulikkk/b251ad2aeecb397a33373be612ef3c51" %} {% endgist %}
