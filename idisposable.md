@@ -35,7 +35,8 @@ namespace IDisposableWorkShop
 {
     // The example of class which is doesn't demand to implement IDisposable interface. Why?
     // The class doesn't own managed resources.
-    // The class doesn't own unmanaged resources: String is not Disposable and List is not Disposable 
+    // The class doesn't own unmanaged resources: 
+    //    String is not Disposable and List is not Disposable 
     public sealed class ErrorList
     {
         private string category;
@@ -48,9 +49,12 @@ namespace IDisposableWorkShop
         }
     }
 
-    // IDisposable only has one method: Dispose. This method has one important guarantee: it must be safe to call multiple times.
-    // An implementation of Dispose may assume that it is not called from a finalizer thread, that its instance is not being garbage collected, 
-    // and that a constructor for its instance has completed successfully. These assumptions makes it safe to access other managed objects.
+    // IDisposable only has one method: Dispose. This method has one important guarantee: 
+    // it must be safe to call multiple times.
+    // An implementation of Dispose may assume that it is not called from a finalizer thread,
+    // that its instance is not being garbage collected, 
+    // and that a constructor for its instance has completed successfully.
+    // These assumptions makes it safe to access other managed objects.
 
     // Example of a correct IDisposable implementation.
     public sealed class SingleApplicationInstance : IDisposable
@@ -71,13 +75,17 @@ namespace IDisposableWorkShop
         public void Dispose()
         {
             // This IDisposable.Dispose implementation is perfectly safe.
-            // It can be safely called multiple times, because each of the IDisposable implementations it invokes can be safely called multiple times.
-            // This transitive property of IDisposable should be used to write simple Dispose implementations like this one.
-            // There also can be cases with checking on null etc (depends on how resource was created).
+            // It can be safely called multiple times, because each of the IDisposable
+            // implementations it invokes can be safely called multiple times.
+            // This transitive property of IDisposable should be used to write 
+            // simple Dispose implementations like this one.
+            // There also can be cases with checking on null etc
+            // (depends on how resource was created).
             namedMutex.Close();
         }
 
-        // A class that owns a single unmanaged resource should not be responsible for anything else. It should only be responsible for closing that resource.
+        // A class that owns a single unmanaged resource should not be responsible for 
+        // anything else. It should only be responsible for closing that resource.
 
         // This is an example of a correct IDisposable implementation.
         // It is not ideal, however, because it does not inherit from SafeHandle
@@ -106,7 +114,8 @@ namespace IDisposableWorkShop
                 if (this.IsInvalid)
                 {
                     // Being careful not to throw exceptions;
-                    // CloseHandle may be called from the finalizer, and an exception at that point would crash the process. 
+                    // CloseHandle may be called from the finalizer,
+                    // and an exception at that point would crash the process. 
                     return;
                 }
 
@@ -118,16 +127,20 @@ namespace IDisposableWorkShop
 
                 // Set the handle to an invalid value
                 this.Handle = IntPtr.Zero;
-                // CloseHandle finishes by marking the handle as invalid, making it safe to invoke this method multiple times;
-                // this, in turn, makes it safe to invoke Dispose multiple times. It is possible to move this “validity check” into the Dispose method,
-                // but placing it in CloseHandle also allows invalid handles to be passed into the constructor or set in the Handle property.
+                // CloseHandle finishes by marking the handle as invalid, making it safe to
+                // invoke this method multiple times;
+                // this, in turn, makes it safe to invoke Dispose multiple times. It is
+                // possible to move this “validity check” into the Dispose method,
+                // but placing it in CloseHandle also allows invalid handles to be
+                // passed into the constructor or set in the Handle property.
             }
 
             public void Dispose()
             {
                 this.CloseHandle();
                 // IDisposable.Dispose ends with a call to GC.SuppressFinalize(this).
-                // This ensures that the object will remain live until after its finalizer has been suppressed.
+                // This ensures that the object will remain live until after its
+                // finalizer has been suppressed.
                 GC.SuppressFinalize(this);
             }
 
@@ -144,10 +157,13 @@ namespace IDisposableWorkShop
             internal static extern bool CloseWindowStation(IntPtr hWinSta);
         }
 
-        // Below is presented implementation of IDisposable from MSDN https://msdn.microsoft.com/ru-ru/library/system.idisposable(v=vs.110).aspx
+        // Below is presented implementation of IDisposable from MSDN
+        // https://msdn.microsoft.com/ru-ru/library/system.idisposable(v=vs.110).aspx
 
-        // If your app simply uses an object that implements T:System.IDisposable, don't provide an T:System.IDisposable implementation. Instead, 
-        // you should call the object's M:System.IDisposable.Dispose implementation when you are finished using it.
+        // If your app simply uses an object that implements T:System.IDisposable, don't provide
+        // an T:System.IDisposable implementation. Instead, 
+        // you should call the object's M:System.IDisposable.Dispose
+        // implementation when you are finished using it.
         // Depending on your programming language, you can do this in one of two ways:
         //    By using a language construct such as the using statement in C# and Visual Basic.
         //    By wrapping the call to the M:System.IDisposable.Dispose implementation in a try/catch block.
