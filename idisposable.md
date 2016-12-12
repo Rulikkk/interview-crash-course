@@ -23,7 +23,7 @@ Rules from Stephen Cleary \([source](http://blog.stephencleary.com/2009/08/how-t
 
 ## Reference implementation
 
-```
+```cs
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,21 +33,6 @@ using System.Threading;
 
 namespace IDisposableWorkShop
 {
-    // IDisposable is not a destructor. Remember that .NET has a garbage collector that works just fine without requiring you to set member variables to null.
-    // There are only two situations when IDisposable does need to be implemented:
-    // 1. The class owns unmanaged resources.
-    // 2. The class owns managed (IDisposable) resources.
-
-    // Only classes that own resources should free them.
-    // In particular, a class may have a reference to a shared resource;
-    // in this case, it should not free the resource because other classes may still be using it.
-
-    // Rules from Stephen Cleary http://blog.stephencleary.com/2009/08/how-to-implement-idisposable-and.html:
-    // Rule 1: Don’t do it (unless you need to).
-    // Rule 2: For a class owning managed resources, implement IDisposable (but not a finalizer)
-    // Rule 3: For a class owning a single unmanaged resource, implement both IDisposable and a finalizer
-
-    
     // The example of class which is doesn't demand to implement IDisposable interface. Why?
     // The class doesn't own managed resources.
     // The class doesn't own unmanaged resources: String is not Disposable and List is not Disposable 
