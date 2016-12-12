@@ -1,0 +1,1 @@
+We will describe C-sharp ways of implementing Singleton patter here.

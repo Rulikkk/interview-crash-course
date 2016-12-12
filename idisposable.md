@@ -1,0 +1,1 @@
+We will describe C-sharp way of implementing `IDisposable` here.
